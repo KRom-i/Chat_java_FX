@@ -61,35 +61,35 @@ public class ServerChat {
         broadcastContactsList();
     }
 
-//    //    Отправку сообщения всем пользователям.
-//    public void broadcastMSG(ClientHandler from, String str){
-//
-//        for (ClientHandler c: users) {
-//
-////            Проверка на наличие nickname (получателя/отправителя) в blacklist (отправителя/получателя).
-//            if (!c.checkBlackList(from.getNickname())
-//                    && !from.checkBlackList(c.getNickname())){
-//                AuthSetvice.historyMsgAdd(c.getNickname(), str);
-//                c.sendMSG(str);
-//            }
-//        }
-//    }
+    //    Отправку сообщения всем пользователям.
+    public void broadcastMSG(ClientHandler from, String str){
 
-////      Отправка приватных сообщений.
-//    public void privateMSG(String nickOut, String nickIn, String str){
-//
-//        for (ClientHandler c: users) {
-////            Сообщение отправляется только двум пользователямю.
-//            if (c.getNickname().equals(nickOut) || c.getNickname().equals(nickIn)) {
-//
-////                Проверка наличия nickname отправителя в blacklist получателя.
-//                if (!c.checkBlackList(nickOut)){
-//                    AuthSetvice.historyMsgAdd(c.getNickname(), nickOut + ": [send for " + nickIn + "] msg: " + str);
-//                    c.sendMSG(nickOut + ": [send for " + nickIn + "] msg: " + str);
-//                }
-//            }
-//        }
-//    }
+        for (ClientHandler c: users) {
+
+//            Проверка на наличие nickname (получателя/отправителя) в blacklist (отправителя/получателя).
+            if (!c.checkBlackList(from.getNickname())
+                    && !from.checkBlackList(c.getNickname())){
+                AuthSetvice.historyMsgAdd(c.getNickname(), str);
+                c.sendMSG(str);
+            }
+        }
+    }
+
+//      Отправка приватных сообщений.
+    public void privateMSG(String nickOut, String nickIn, String str){
+
+        for (ClientHandler c: users) {
+//            Сообщение отправляется только двум пользователямю.
+            if (c.getNickname().equals(nickOut) || c.getNickname().equals(nickIn)) {
+
+//                Проверка наличия nickname отправителя в blacklist получателя.
+                if (!c.checkBlackList(nickOut)){
+                    AuthSetvice.historyMsgAdd(c.getNickname(), nickOut + ": [send for " + nickIn + "] msg: " + str);
+                    c.sendMSG(nickOut + ": [send for " + nickIn + "] msg: " + str);
+                }
+            }
+        }
+    }
 
     public boolean checkNick(String nick){
         for (ClientHandler c: users
