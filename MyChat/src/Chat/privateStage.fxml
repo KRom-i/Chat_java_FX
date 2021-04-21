@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<HBox fx:id="WindowPrivate" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0"
+      prefWidth="550.0" styleClass="my-Box1-class" stylesheets="@Styles/style.css" xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="Chat.PrivateStageController" spacing="2" >
+    <!--   8.0.171-->
+    <padding>
+        <Insets bottom="2" left="2" right="2" top="2" />
+    </padding>
+    <children>
+             <TextField fx:id="textField" focusTraversable="false" onAction="#sendPrivate" prefHeight="50.0" prefWidth="450.0" promptText=" Enter your message" styleClass="my-btn-class">
+                 <effect>
+                     <Lighting>
+                         <bumpInput>
+                             <Shadow />
+                         </bumpInput>
+                         <light>
+                             <Light.Distant />
+                         </light>
+                     </Lighting>
+                 </effect>
+      </TextField>
+             <Button fx:id="btn" onAction="#sendPrivate"  mnemonicParsing="false" prefHeight="50.0" prefWidth="90.0" styleClass="my-btn-class" text="Send">
+                 <effect>
+                     <SepiaTone />
+                 </effect>
+      </Button>
+        <Button fx:id="btnCancel" onAction="#privateCancel"  mnemonicParsing="false" prefHeight="50.0" prefWidth="90.0" styleClass="my-btn-class" text="Cancel">
+            <effect>
+                <SepiaTone />
+            </effect>
+        </Button>
+    </children>
+    <effect>
+        <InnerShadow />
+    </effect>
+</HBox>

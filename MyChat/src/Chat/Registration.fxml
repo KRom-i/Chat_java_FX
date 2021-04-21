@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="WindowReg" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0"
+      prefWidth="300.0" styleClass="my-Box1-class" stylesheets="@Styles/style.css" xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="Chat.RegistrationController" alignment="TOP_RIGHT" spacing="5">
+    <!--   8.0.171-->
+    <padding>
+        <Insets bottom="10" left="5" right="5" top="5" />
+    </padding>
+    <children>
+                <Label fx:id="labelReg" alignment="CENTER" blendMode="SCREEN" prefHeight="30.0" prefWidth="300.0" styleClass="my-lable-class" text="New user registration" />
+                <TextField  fx:id="nick" focusTraversable="false" onMouseClicked="#clearText"  promptText=" Nick name" styleClass="my-btn-class" >
+                    <effect>
+                        <Lighting>
+                            <bumpInput>
+                                <Shadow />
+                            </bumpInput>
+                            <light>
+                                <Light.Distant />
+                            </light>
+                        </Lighting>
+                    </effect></TextField>
+                <TextField  fx:id="log" focusTraversable="false"  onMouseClicked="#clearText" promptText=" Login" styleClass="my-btn-class" >
+                    <effect>
+                        <Lighting>
+                            <bumpInput>
+                                <Shadow />
+                            </bumpInput>
+                            <light>
+                                <Light.Distant />
+                            </light>
+                        </Lighting>
+                    </effect></TextField>
+                <PasswordField fx:id="pass" focusTraversable="false" onMouseClicked="#clearText" promptText=" Password" styleClass="my-btn-class" >
+                    <effect>
+                        <Lighting>
+                            <bumpInput>
+                                <Shadow />
+                            </bumpInput>
+                            <light>
+                                <Light.Distant />
+                            </light>
+                        </Lighting>
+                    </effect></PasswordField>
+                <Button blendMode="SRC_ATOP" mnemonicParsing="false" onAction="#singUp" prefHeight="30.0" prefWidth="100.0" styleClass="my-btn-class" text="SING UP">
+                    <effect>
+                        <SepiaTone />
+                    </effect></Button>
+                <Button blendMode="SRC_ATOP" mnemonicParsing="false" onAction="#regCancel" prefHeight="30.0" prefWidth="100.0" styleClass="btn-close-class" text="CANСEL">
+                    <effect>
+                        <SepiaTone />
+                    </effect></Button>
+            </children>
+            <effect>
+                <InnerShadow />
+            </effect>
+        </VBox>
+

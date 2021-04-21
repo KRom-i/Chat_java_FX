@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="Window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" styleClass="my-Box1-class" stylesheets="@Styles/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Chat.Controller">
+   <!--   8.0.171-->
+   <children>
+      <HBox prefHeight="30.0" prefWidth="600.0" spacing="2" styleClass="my-Box-class">
+         <padding>
+            <Insets bottom="2" left="2" right="2" top="2" />
+         </padding>
+         <children>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@img/label-chat.png"/>
+               </image>
+            </ImageView>
+            <Label fx:id="label" alignment="CENTER" blendMode="SCREEN" prefHeight="30.0" prefWidth="490.0" styleClass="my-lable-class" text="Chat" />
+            <Button mnemonicParsing="false" onAction="#rollUp" prefHeight="30.0" prefWidth="40.0" styleClass="my-btn-class" text="-" />
+            <Button mnemonicParsing="false" onAction="#chatExit" prefHeight="30.0" prefWidth="40.0" styleClass="btn-close-class" text="X" />
+         </children></HBox>
+      <VBox alignment="TOP_RIGHT"  styleClass="my-Box1-class" stylesheets="@Styles/style.css" prefHeight="10.0" prefWidth="600.0">
+         <TextField HBox.hgrow="ALWAYS" fx:id="info" editable="false" focusTraversable="false" prefHeight="10.0" prefWidth="600.0"  styleClass="my-textInfo-class">
+            <effect>
+               <Lighting>
+                  <bumpInput>
+                     <Shadow/>
+                  </bumpInput>
+                  <light>
+                     <Light.Distant/>
+                  </light>
+               </Lighting>
+            </effect>
+         </TextField>
+      </VBox>
+      <VBox fx:id="upPanel" alignment="TOP_RIGHT" spacing="5" styleClass="my-Box1-class" stylesheets="@Styles/style.css">
+         <padding>
+            <Insets bottom="10" left="5" right="5" top="5" />
+         </padding>
+         <children>
+            <TextField  fx:id="log" focusTraversable="false" onAction="#singIn" onMouseClicked="#colorBtn"  promptText=" Login" styleClass="my-btn-class" >
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant/>
+                     </light>
+                  </Lighting>
+               </effect></TextField>
+            <PasswordField fx:id="pass" focusTraversable="false" onAction="#singIn" onMouseClicked="#colorBtn" promptText=" Password" styleClass="my-btn-class" >
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow/>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant/>
+                     </light>
+                  </Lighting>
+               </effect></PasswordField>
+            <Button blendMode="SRC_ATOP" mnemonicParsing="false" onAction="#singIn" prefHeight="30.0" prefWidth="100.0" styleClass="my-btn-class" text="SING IN">
+               <effect>
+                  <SepiaTone/>
+               </effect></Button>
+            <Button blendMode="SRC_ATOP"  mnemonicParsing="false" onAction="#singUp" prefHeight="30.0" prefWidth="100.0" styleClass="my-btn-class" text="SING UP">
+               <effect>
+                  <SepiaTone/>
+               </effect></Button>
+         </children>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </VBox>
+
+      <HBox  prefHeight="610.0" prefWidth="600.0" styleClass="my-Box-class">
+         <children>
+            <TextArea HBox.hgrow="ALWAYS" fx:id="chatArea" editable="false" focusTraversable="false" prefHeight="630.0" prefWidth="590.0" styleClass="my-textArea-class">
+               <effect>
+                  <Lighting diffuseConstant="1.17" specularExponent="31.21">
+                     <bumpInput>
+                        <Shadow/>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant/>
+                     </light>
+                  </Lighting>
+               </effect></TextArea>
+            <ListView  fx:id="listContacts" onMouseClicked="#selectClient" prefHeight="630.0" prefWidth="0.0" styleClass="my-listContacts-class">
+               <effect>
+                  <Lighting diffuseConstant="1.17" specularExponent="31.21">
+                     <bumpInput>
+                        <Shadow/>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant/>
+                     </light>
+                  </Lighting>
+               </effect>
+             </ListView>
+            <Button fx:id="btnList" ellipsisString="" graphicTextGap="1.0" mnemonicParsing="false" onAction="#listCon" prefHeight="630.0" prefWidth="10.0" styleClass="my-btn-class" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+               <effect>
+                  <SepiaTone />
+               </effect></Button>
+         </children>
+</HBox>
+      <HBox  fx:id="dnPanel" visible="false"  managed="false"  prefHeight="50.0" prefWidth="600.0" spacing="5" styleClass="my-Box1-class">
+         <padding>
+            <Insets bottom="5" left="5" right="5" top="5" />
+         </padding>
+         <children>
+            <TextField fx:id="textField" onAction="#sendMsg" prefHeight="50.0" prefWidth="500.0" promptText=" Enter your message" styleClass="my-btn-class">
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant/>
+                     </light>
+                  </Lighting>
+               </effect></TextField>
+            <Button mnemonicParsing="false" onAction="#sendMsg" prefHeight="50.0" prefWidth="90.0" styleClass="my-btn-class" text="SEND">
+               <effect>
+                  <SepiaTone/>
+               </effect></Button>
+         </children>
+         <effect>
+            <Lighting>
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant/>
+               </light>
+            </Lighting>
+         </effect></HBox>
+   </children>
+   <effect>
+      <InnerShadow/>
+   </effect>
+</VBox>

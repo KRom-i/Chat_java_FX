@@ -1,0 +1,103 @@
+.my-lable-class {
+   -fx-text-fill: white;
+}
+.auth-lable-class {
+   -fx-text-fill: black;
+}
+
+.btn-close-class{
+    -fx-background-radius: 5;
+    -fx-background-color: #696969;
+    -fx-text-fill: white;
+    -fx-padding: 0;
+}
+
+.btn-close-class:hover{
+    -fx-background-radius: 5;
+    -fx-background-color: #800000;
+    -fx-text-fill: white;
+    -fx-padding: 0;
+}
+
+.my-btn-class {
+    -fx-background-radius: 5;
+    -fx-background-color: #696969;
+    -fx-text-fill: white;
+    -fx-padding: 0;
+}
+
+.my-btn-class:hover {
+    -fx-background-radius: 5;
+    -fx-background-color: #D3D3D3;
+    -fx-text-fill: black;
+    -fx-padding: 0;
+}
+
+
+.root {
+
+  -fx-background-radius: 5;
+  -fx-background-color: #808080;
+}
+.rootdialog {
+
+  -fx-background-radius: 5;
+  -fx-background-color: #808080;
+}
+
+.my-Box-class {
+    -fx-background-radius: 5;
+    -fx-background-color: #808080;
+}
+
+.my-Box1-class {
+    -fx-background-radius: 5;
+    -fx-background-color: #A9A9A9;
+}
+
+.my-textF-class {
+    -fx-background-radius: 5;
+    -fx-text-fill: white;
+    -fx-background-color: #696969;
+
+}
+
+.my-textArea-class {
+
+    -fx-background-radius: 5;
+    -fx-text-fill: black;
+    -fx-background-color: #A9A9A9;
+    -fx-control-inner-background: #A9A9A9;
+
+}
+
+.my-textInfo-class {
+
+    -fx-background-radius: 5;
+    -fx-text-fill: #4169E1;
+    -fx-background-color: #A9A9A9;
+    -fx-control-inner-background: #A9A9A9;
+}
+
+.my-listContacts-class {
+    -fx-background-radius: 5;
+    -fx-text-fill: black;
+    -fx-background-color: #A9A9A9;
+}
+
+.list-cell{
+    -fx-background-color: #696969;
+    -fx-text-fill: white;
+}
+
+.list-cell: odd {
+    -fx-background-color: #696969;
+}
+
+.list-cell: selected {
+    -fx-background-radius: 5;
+    -fx-background-color: #A9A9A9;
+    -fx-text-fill: black;
+}
+
+
