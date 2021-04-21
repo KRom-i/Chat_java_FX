@@ -204,42 +204,42 @@ public class AuthSetvice {
         return historyList;
     }
 
-////    Авторизация пользователя через БД (при ошибке авторизации возвращает null).
-//    public static String getNicknameByLoginAndPassword(String login, String password){
-//
-//        PreparedStatement statement = null;
-//        ResultSet rs = null;
-//
-//        try {
-//
-//            statement = connection.prepareStatement(
-//                    "SELECT * FROM users WHERE login = ?;"
-//            );
-//
-//            statement.setString(1,login);
-//
-//            rs = statement.executeQuery();
-//
-//            if (rs.next()){
-//
-//                int passHash = password.hashCode();
-//
-//                String nick = rs.getString("nickname");
-//                int dbHash = rs.getInt("password");
-//
-//                if (passHash == dbHash){
-//                    return nick;
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            statementClose(statement);
-//            resultSetClose(rs);
-//        }
-//
-//        return null;
-//    }
+//    Авторизация пользователя через БД (при ошибке авторизации возвращает null).
+    public static String getNicknameByLoginAndPassword(String login, String password){
+
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+
+        try {
+
+            statement = connection.prepareStatement(
+                    "SELECT * FROM users WHERE login = ?;"
+            );
+
+            statement.setString(1,login);
+
+            rs = statement.executeQuery();
+
+            if (rs.next()){
+
+                int passHash = password.hashCode();
+
+                String nick = rs.getString("nickname");
+                int dbHash = rs.getInt("password");
+
+                if (passHash == dbHash){
+                    return nick;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            statementClose(statement);
+            resultSetClose(rs);
+        }
+
+        return null;
+    }
 
     public static void disconnect(){
         try {
