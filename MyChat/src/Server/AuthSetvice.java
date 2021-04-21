@@ -120,37 +120,37 @@ public class AuthSetvice {
 
     }
 
-////    Проверка на уникальность "nickname" и "login" при регистрации нового пользователя
-//    public static boolean checkReg(String strfrom, String strVal){
-//
-//        PreparedStatement statement = null;
-//        ResultSet rs = null;
-//
-//        try {
-//
-//            statement = connection.prepareStatement(
-//                    "SELECT * FROM users WHERE " + strfrom + " = ?;"
-//            );
-//
-//
-//            statement.setString(1,strVal);
-//
-//            rs = statement.executeQuery();
-//
-//            if (rs.next()) {
-//                return true;
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            statementClose(statement);
-//            resultSetClose(rs);
-//        }
-//
-//        return false;
-//
-//    }
+//    Проверка на уникальность "nickname" и "login" при регистрации нового пользователя
+    public static boolean checkReg(String strfrom, String strVal){
+
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+
+        try {
+
+            statement = connection.prepareStatement(
+                    "SELECT * FROM users WHERE " + strfrom + " = ?;"
+            );
+
+
+            statement.setString(1,strVal);
+
+            rs = statement.executeQuery();
+
+            if (rs.next()) {
+                return true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            statementClose(statement);
+            resultSetClose(rs);
+        }
+
+        return false;
+
+    }
 
 //     Записть сообщения в историю БД.
     public static void historyMsgAdd(String nickname, String msg){
@@ -204,42 +204,42 @@ public class AuthSetvice {
         return historyList;
     }
 
-////    Авторизация пользователя через БД (при ошибке авторизации возвращает null).
-//    public static String getNicknameByLoginAndPassword(String login, String password){
-//
-//        PreparedStatement statement = null;
-//        ResultSet rs = null;
-//
-//        try {
-//
-//            statement = connection.prepareStatement(
-//                    "SELECT * FROM users WHERE login = ?;"
-//            );
-//
-//            statement.setString(1,login);
-//
-//            rs = statement.executeQuery();
-//
-//            if (rs.next()){
-//
-//                int passHash = password.hashCode();
-//
-//                String nick = rs.getString("nickname");
-//                int dbHash = rs.getInt("password");
-//
-//                if (passHash == dbHash){
-//                    return nick;
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            statementClose(statement);
-//            resultSetClose(rs);
-//        }
-//
-//        return null;
-//    }
+//    Авторизация пользователя через БД (при ошибке авторизации возвращает null).
+    public static String getNicknameByLoginAndPassword(String login, String password){
+
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+
+        try {
+
+            statement = connection.prepareStatement(
+                    "SELECT * FROM users WHERE login = ?;"
+            );
+
+            statement.setString(1,login);
+
+            rs = statement.executeQuery();
+
+            if (rs.next()){
+
+                int passHash = password.hashCode();
+
+                String nick = rs.getString("nickname");
+                int dbHash = rs.getInt("password");
+
+                if (passHash == dbHash){
+                    return nick;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            statementClose(statement);
+            resultSetClose(rs);
+        }
+
+        return null;
+    }
 
     public static void disconnect(){
         try {
