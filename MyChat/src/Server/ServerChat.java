@@ -61,7 +61,7 @@ public class ServerChat {
         broadcastContactsList();
     }
 
-    //    Отправку сообщения всем пользователям.
+    //    Отправка сообщения всем пользователям.
     public void broadcastMSG(ClientHandler from, String str){
 
         for (ClientHandler c: users) {
