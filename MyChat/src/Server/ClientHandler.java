@@ -40,17 +40,17 @@ public class ClientHandler {
 
                         String str = in.readUTF();
 
-//                      Обработка запроса на авторизацию пользователя.
-                        if(str.startsWith("/auth ")) {
-
-                            String[] tokens = str.split(" ");
-                            String nick = AuthSetvice.getNicknameByLoginAndPassword(
-                                    tokens[1], tokens[2]);
-
-                            if (nick != null && !server.checkNick(nick)) {
-
-                                checkAuth = true;
-                                sendMSG("/auth-OK " + nick);
+////                      Обработка запроса на авторизацию пользователя.
+//                        if(str.startsWith("/auth ")) {
+//
+//                            String[] tokens = str.split(" ");
+//                            String nick = AuthSetvice.getNicknameByLoginAndPassword(
+//                                    tokens[1], tokens[2]);
+//
+//                            if (nick != null && !server.checkNick(nick)) {
+//
+//                                checkAuth = true;
+//                                sendMSG("/auth-OK " + nick);
 
 ////                              Отправка истории сообщений авториз. пользователю.
 //                                history = AuthSetvice.historyMsg(nick);
