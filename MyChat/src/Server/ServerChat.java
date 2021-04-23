@@ -61,9 +61,44 @@ public class ServerChat {
         broadcastContactsList();
     }
 
+    //    Отправку сообщения всем пользователям.
+    public void broadcastMSG(ClientHandler from, String str){
 
+        FileHistoryMSG.writeFileHistoryMSG(str, false);
 
+        for (ClientHandler c: users) {
 
+//            Проверка на наличие nickname (получателя/отправителя) в blacklist (отправителя/получателя).
+            if (!c.checkBlackList(from.getNickname())
+                    && !from.checkBlackList(c.getNickname())){
+                c.sendMSG(str);
+            }
+        }
+    }
+
+//      Отправка приватных сообщений.
+    public void privateMSG(String nickOut, String nickIn, String str){
+
+        boolean writeHistory = false;
+        String msg = String.format("%s send for %s msg: %s",nickOut,nickIn,str);
+
+        for (ClientHandler c: users) {
+//            Сообщение отправляется только двум пользователямю.
+            if (c.getNickname().equals(nickOut) || c.getNickname().equals(nickIn)) {
+
+//                Проверка наличия nickname отправителя в blacklist получателя.
+                if (!c.checkBlackList(nickOut)){
+
+                    c.sendMSG(msg);
+
+                    if (!writeHistory){
+                        FileHistoryMSG.writeFileHistoryMSG( msg, true);
+                        writeHistory = true;
+                    }
+                }
+            }
+        }
+    }
 
     public boolean checkNick(String nick){
         for (ClientHandler c: users
