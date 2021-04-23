@@ -18,7 +18,7 @@ public class ClientHandler {
     private boolean checkAuth;
     private boolean isExit;
     private boolean registration;
-    private List<String> history;
+    private String history;
 
     public ClientHandler(ServerChat server, Socket socket) {
 
@@ -53,12 +53,10 @@ public class ClientHandler {
                                 sendMSG("/auth-OK " + nick);
 
 //                              Отправка истории сообщений авториз. пользователю.
-                                history = AuthSetvice.historyMsg(nick);
-                                if (history.size() > 0){
-                                    for (int i = 0; i < history.size(); i++) {
-                                        sendMSG(history.get(i));
-                                    }
+                                if ((history = FileHistoryMSG.readFileHistoryMSG(nick)) != null){
+                                        sendMSG(history);
                                 }
+
 
                                 setNickname(nick);
 
