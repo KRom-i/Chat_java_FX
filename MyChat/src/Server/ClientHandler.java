@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ClientHandler {
 
@@ -19,6 +21,7 @@ public class ClientHandler {
     private boolean isExit;
     private boolean registration;
     private String history;
+    private ExecutorService executorService;
 
     public ClientHandler(ServerChat server, Socket socket) {
 
@@ -29,8 +32,9 @@ public class ClientHandler {
             this.in = new DataInputStream(socket.getInputStream());
             this.out = new DataOutputStream(socket.getOutputStream());
             this.blacklist = new LinkedList<>();
+            this.executorService = Executors.newFixedThreadPool(2);
 
-            new Thread(() ->{
+            executorService.submit(() -> {
 
                 isExit = false;
                 checkAuth = false;
@@ -221,12 +225,12 @@ public class ClientHandler {
                 }
                 server.unsubscribe(this);
 
-            }).start();
+            });
 
 //            Thread на закрытие соединения по таймауту стартует при попытке авторизации.
 //            При регистрации логика следущая (connect -> out -> in -> disconnect).
             if (!registration) {
-                new Thread(() -> {
+                executorService.submit(() -> {
                     try {
                         Thread.sleep(120000);
                         if (!checkAuth) {
@@ -240,14 +244,14 @@ public class ClientHandler {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }).start();
+                });
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
+     executorService.shutdown();
     }
 
     private void setNickname(String nick) {
