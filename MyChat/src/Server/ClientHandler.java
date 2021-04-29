@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ClientHandler {
 
@@ -19,6 +21,7 @@ public class ClientHandler {
     private boolean isExit;
     private boolean registration;
     private String history;
+    private ExecutorService executorService;
 
     public ClientHandler(ServerChat server, Socket socket) {
 
@@ -29,8 +32,9 @@ public class ClientHandler {
             this.in = new DataInputStream(socket.getInputStream());
             this.out = new DataOutputStream(socket.getOutputStream());
             this.blacklist = new LinkedList<>();
+            this.executorService = Executors.newFixedThreadPool(2);
 
-            new Thread(() ->{
+            executorService.submit(() -> {
 
                 isExit = false;
                 checkAuth = false;
@@ -54,7 +58,7 @@ public class ClientHandler {
 
 //                              Отправка истории сообщений авториз. пользователю.
                                 if ((history = FileHistoryMSG.readFileHistoryMSG(nick)) != null){
-                                        sendMSG(history);
+                                    sendMSG(history);
                                 }
 
 
@@ -74,31 +78,31 @@ public class ClientHandler {
 
                             registration = true;
 
-                                String[] tokensReg = str.split(" ");
+                            String[] tokensReg = str.split(" ");
 
-                                if (AuthSetvice.checkReg("login", tokensReg[1])){
+                            if (AuthSetvice.checkReg("login", tokensReg[1])){
 
-                                    sendMSG("login failed");
+                                sendMSG("login failed");
 
-                                } else if (AuthSetvice.checkReg("nickname", tokensReg[3])){
+                            } else if (AuthSetvice.checkReg("nickname", tokensReg[3])){
 
-                                    sendMSG("nickname failed");
+                                sendMSG("nickname failed");
 
-                                } else if (AuthSetvice.addUser(tokensReg[1], tokensReg[2], tokensReg[3])) {
+                            } else if (AuthSetvice.addUser(tokensReg[1], tokensReg[2], tokensReg[3])) {
 
-                                    sendMSG("Successful registration");
-                                    System.out.printf("Successful registration log [%s], pass [%s], nick [%s]",
-                                            tokensReg[1], tokensReg[2].hashCode(), tokensReg[3]);
+                                sendMSG("Successful registration");
+                                System.out.printf("Successful registration log [%s], pass [%s], nick [%s]",
+                                        tokensReg[1], tokensReg[2].hashCode(), tokensReg[3]);
 
-                                } else {
+                            } else {
 
-                                    sendMSG("Registration failed");
-                                    System.out.printf("Registration failed log [%s], pass [%s], nick [%s]",
-                                            tokensReg[1], tokensReg[2].hashCode(), tokensReg[3]);
-
-                                }
+                                sendMSG("Registration failed");
+                                System.out.printf("Registration failed log [%s], pass [%s], nick [%s]",
+                                        tokensReg[1], tokensReg[2].hashCode(), tokensReg[3]);
 
                             }
+
+                        }
 
 //                      Комманда disconnect.
                         if(str.equals("/end")){
@@ -174,12 +178,12 @@ public class ClientHandler {
 
 //                                            При наличии данного nickname в blacklist (уладяем и
 //                                            обновляем список).
-                                                    AuthSetvice.delUserBlackList(getNickname(), nickBlack);
-                                                    sendMSG("You have removed a [" + nickBlack + "] " +
-                                                            "from the blacklist");
-                                                    blacklist = AuthSetvice.blacklistIni(getNickname());
+                                                AuthSetvice.delUserBlackList(getNickname(), nickBlack);
+                                                sendMSG("You have removed a [" + nickBlack + "] " +
+                                                        "from the blacklist");
+                                                blacklist = AuthSetvice.blacklistIni(getNickname());
 
-                                                 }
+                                            }
                                         } else {
                                             sendMSG("Error! user [" + nickBlack + "] does not exist");
                                         }
@@ -221,12 +225,12 @@ public class ClientHandler {
                 }
                 server.unsubscribe(this);
 
-            }).start();
+            });
 
 //            Thread на закрытие соединения по таймауту стартует при попытке авторизации.
 //            При регистрации логика следущая (connect -> out -> in -> disconnect).
             if (!registration) {
-                new Thread(() -> {
+                executorService.submit(() -> {
                     try {
                         Thread.sleep(120000);
                         if (!checkAuth) {
@@ -240,14 +244,14 @@ public class ClientHandler {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }).start();
+                });
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
+        executorService.shutdown();
     }
 
     private void setNickname(String nick) {
@@ -259,12 +263,12 @@ public class ClientHandler {
     }
 
     public void sendMSG (String str){
-     try {
-         out.writeUTF(str);
-     } catch (IOException e) {
-         e.printStackTrace();
-     }
- }
+        try {
+            out.writeUTF(str);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public boolean checkBlackList(String nickname) {
         return blacklist.contains(nickname);
