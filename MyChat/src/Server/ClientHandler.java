@@ -43,6 +43,7 @@ public class ClientHandler {
                     while (true){
 
                         String str = in.readUTF();
+                        server.loggerInfo(String.format("Client [%s] out cmd [%s]", socket.getInetAddress(), str.split(" ")[0]));
 
 //                      Обработка запроса на авторизацию пользователя.
                         if(str.startsWith("/auth ")) {
@@ -71,6 +72,7 @@ public class ClientHandler {
 
                             } else {
                                 sendMSG("Wrong Login/password");
+                                server.loggerInfo(String.format("Client [%s] wrong Login/password", socket.getInetAddress()));
                             }
 
 //                      Обработка запроса на регистрацию нового пользователя.
@@ -91,14 +93,12 @@ public class ClientHandler {
                                 } else if (AuthSetvice.addUser(tokensReg[1], tokensReg[2], tokensReg[3])) {
 
                                     sendMSG("Successful registration");
-                                    System.out.printf("Successful registration log [%s], pass [%s], nick [%s]",
-                                            tokensReg[1], tokensReg[2].hashCode(), tokensReg[3]);
+                                    server.loggerInfo(String.format("Client [%s] successful registration", socket.getInetAddress()));
 
                                 } else {
 
                                     sendMSG("Registration failed");
-                                    System.out.printf("Registration failed log [%s], pass [%s], nick [%s]",
-                                            tokensReg[1], tokensReg[2].hashCode(), tokensReg[3]);
+                                    server.loggerInfo(String.format("Client [%s] registration failed", socket.getInetAddress()));
 
                                 }
 
@@ -108,7 +108,7 @@ public class ClientHandler {
                         if(str.equals("/end")){
 
                             out.writeUTF("/serverClosed");
-                            System.out.printf("Client [%s] disconnected \n", socket.getInetAddress());
+                            server.loggerInfo(String.format("Client [%s] disconnected", socket.getInetAddress()));
                             isExit = true;
                             break;
 
@@ -125,11 +125,12 @@ public class ClientHandler {
 
 //                          Обработка комманд от пользователя.
                             if (str.startsWith("/") || str.startsWith("@")) {
+                                server.loggerInfo(String.format("User [%s] out cmd [%s]", getNickname(), str.split(" ")[0]));
 
 //                               Комманда disconnect.
                                 if (str.equals("/end")) {
                                     out.writeUTF("/serverClosed");
-                                    System.out.printf("Client [%s] disconnected \n", socket.getInetAddress());
+                                    server.loggerInfo(String.format("Client [%s] disconnected", socket.getInetAddress()));
                                     break;
 
 //                              Обработка приватных сообщений.
@@ -204,23 +205,23 @@ public class ClientHandler {
                         }
                     }
                 } catch (IOException e){
-                    e.printStackTrace();
+                    server.loggerError(e);
                 } finally {
                     try {
                         in.close();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        server.loggerError(e);
                     }
                     try {
                         out.close();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        server.loggerError(e);
                     }
 
                     try {
                         socket.close();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        server.loggerError(e);
                     }
                 }
                 server.unsubscribe(this);
@@ -236,19 +237,19 @@ public class ClientHandler {
                         if (!checkAuth) {
                             try {
                                 out.writeUTF("/endTimeAuth");
-                                System.out.printf("Client [%s] disconnected (auth=false)", socket.getInetAddress());
+                                server.loggerInfo(String.format("Client [%s] disconnected (auth=false)", socket.getInetAddress()));
                             } catch (IOException e) {
-                                e.printStackTrace();
+                                server.loggerError(e);
                             }
                         }
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        server.loggerError(e);
                     }
                 });
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            server.loggerError(e);
         }
 
         executorService.shutdown();
@@ -266,7 +267,7 @@ public class ClientHandler {
      try {
          out.writeUTF(str);
      } catch (IOException e) {
-         e.printStackTrace();
+         server.loggerError(e);
      }
  }
 
