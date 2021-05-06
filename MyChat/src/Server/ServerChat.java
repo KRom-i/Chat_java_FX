@@ -1,5 +1,8 @@
 package Server;
 
+import javafx.application.Application;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -7,6 +10,7 @@ import java.util.Vector;
 
 public class ServerChat {
     private Vector<ClientHandler> users;
+    private final Logger LOGGER = LogManager.getLogger(Application.class);
 
     public ServerChat() {
 
@@ -17,48 +21,49 @@ public class ServerChat {
         try {
             AuthSetvice.connect();
             serverSocket = new ServerSocket(6000);
-            System.out.println("Server start");
+            LOGGER.info(String.format("Server [%s] start", serverSocket.getLocalSocketAddress()));
 
             while (true){
                 socket = serverSocket.accept();
-                System.out.printf("Client [%s] try to connect \n", socket.getInetAddress());
+                LOGGER.info(String.format("Client [%s] try to connect", socket.getInetAddress()));
              new ClientHandler(this, socket);
 
             }
 
         } catch (IOException e){
-            e.printStackTrace();
+            LOGGER.error("Error! Server start", e);
         } finally {
             try {
                 socket.close();
+                LOGGER.info("Socket close");
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.error("Error! Socket close",e);
             }
 
             try {
                 serverSocket.close();
+                LOGGER.info("Server socket close");
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.error("Error! Server socket close",e);
             }
+
+            AuthSetvice.disconnect();
+            LOGGER.info(String.format("Server [%s] close", serverSocket.getLocalSocketAddress()));
         }
-
-        AuthSetvice.disconnect();
-
-
     }
 
     public void subscribe(ClientHandler client){
         users.add(client);
-        String log = ("User ["+ client.getNickname()+ "] connected");
-        System.out.println(log);
         broadcastContactsList();
+        String log = ("User ["+ client.getNickname()+ "] connected");
+        LOGGER.info(log);
     }
 
     public void unsubscribe(ClientHandler client){
         users.remove(client);
-        String log = ("User [" + client.getNickname() + "] disconnected");
-        System.out.println(log);
         broadcastContactsList();
+        String log = ("User [" + client.getNickname() + "] disconnected");
+        LOGGER.info(log);
     }
 
     //    Отправку сообщения всем пользователям.
@@ -74,6 +79,8 @@ public class ServerChat {
                 c.sendMSG(str);
             }
         }
+
+        LOGGER.info(String.format("User [%s] out broadcast MSG", from.getNickname()));
     }
 
 //      Отправка приватных сообщений.
@@ -98,6 +105,7 @@ public class ServerChat {
                 }
             }
         }
+        LOGGER.info(String.format("User [%s] out private MSG", nickOut));
     }
 
     public boolean checkNick(String nick){
@@ -127,5 +135,14 @@ public class ServerChat {
         for (ClientHandler c: users) {
                 c.sendMSG(outCmd);
             }
+    }
+
+
+    public void loggerInfo(String strInfoLoggerr){
+        LOGGER.info(strInfoLoggerr);
+    }
+
+    public void loggerError(Exception e){
+        LOGGER.error(e);
     }
 }
